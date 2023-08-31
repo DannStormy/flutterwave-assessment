@@ -7,9 +7,8 @@
   "description": "",
   "scripts": {
     "dev": "nodemon --exec babel-node index.js",
-    "start": "npm run pre-migrate && babel-node index.js",
-    "premigrate": "",
     "prestart": "npm run migrate:up",
+    "start": "babel-node index.js",
     "migrations": "source .env && db-migrate",
     "lint": "eslint --fix app/ --ext .js",
     "precommit": "npm run lint",
