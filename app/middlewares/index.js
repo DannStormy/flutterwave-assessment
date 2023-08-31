@@ -1,7 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 import moment from 'moment';
-import { errorResponse } from '../utils/response';
-
 const validateRequestBody = (schema, type) => async (req, res, next) => {
   try {
     const getType = {
@@ -15,14 +13,13 @@ const validateRequestBody = (schema, type) => async (req, res, next) => {
     const valid = await schema.validateAsync(data);
     req.body = valid;
     logger.info(`[[${moment().format('DD-MMM-YYYY, h:mm:ss')}]
-        Info: successfully validates request parameters middleware.index.js`);
+        Info: successfully validated request parameters middleware.index.js`);
     return next();
   } catch (error) {
     const message = error.details[0].message.replace(/["]/gi, '');
-    return errorResponse({
-      res,
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
-      message,
+      message: 'Validation error',
       error: message,
     });
   }
@@ -35,7 +32,10 @@ export const catchInternalServerError = (fn) =>
         status: false,
         message:
           'We encountered a problem while processing your request. Please try again',
-        errors: error.errors || error.message,
+        errors:
+          process.env.NODE_ENV !== 'production'
+            ? error.errors || error.message
+            : null,
       });
     });
   };

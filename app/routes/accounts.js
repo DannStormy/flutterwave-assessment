@@ -14,7 +14,6 @@ accountRouter.post(
 
 accountRouter.get(
   ROUTES.GET_SINGLE_ACCOUNT,
-  validateRequestBody(validators.getAccountSchema, 'params'),
   catchInternalServerError(AccountController.fetchSingleAccount)
 );
 

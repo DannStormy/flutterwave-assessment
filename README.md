@@ -21,4 +21,5 @@
 4. Run the application:
 ## Usage
  - Set the PORT environment variable to specify the port the application will listen on.
+ - Set NODE_ENV enviroment variable to specify environment
  - npm run dev
