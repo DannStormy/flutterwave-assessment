@@ -7,6 +7,7 @@ const ROUTES = {
     // others
     HOME: '/healthcheck/ping',
     WILD_CARD: '/*',
+    API_VERSION_ONE_URL:  "/api/v1",
   };
   
   export default ROUTES;

@@ -1,0 +1,5 @@
+{
+	"development": {
+		"ENV": "ASSESSMENT_DB_URL"
+	}
+}

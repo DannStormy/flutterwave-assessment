@@ -12,12 +12,10 @@ const validateRequestBody = (schema, type) => async (req, res, next) => {
       file: req.files,
     };
     const data = getType[type];
-    const { correlationId } = req;
     const valid = await schema.validateAsync(data);
     req.body = valid;
     logger.info(`[[${moment().format('DD-MMM-YYYY, h:mm:ss')}]
-        ${correlationId} 
-        Info: successfully validates request parameters middleware.validator.helper.js`);
+        Info: successfully validates request parameters middleware.index.js`);
     return next();
   } catch (error) {
     const message = error.details[0].message.replace(/["]/gi, '');
@@ -30,14 +28,16 @@ const validateRequestBody = (schema, type) => async (req, res, next) => {
   }
 };
 
-export const catchInternalServerError = fn => function (req, res, ...args) {
-  return fn(req, res, ...args).catch(error => {
-    res.status(500).json({
-      status: false,
-      message: 'We encountered a problem while processing your request. Please try again',
-      errors: error.errors || error.message
+export const catchInternalServerError = (fn) =>
+  function (req, res, ...args) {
+    return fn(req, res, ...args).catch((error) => {
+      res.status(500).json({
+        status: false,
+        message:
+          'We encountered a problem while processing your request. Please try again',
+        errors: error.errors || error.message,
+      });
     });
-  });
-};
+  };
 
 export default validateRequestBody;

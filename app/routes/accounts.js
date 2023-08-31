@@ -9,8 +9,18 @@ const accountRouter = Router();
 accountRouter.post(
   ROUTES.ADD_ACCOUNT,
   validateRequestBody(validators.addAccountSchema, 'payload'),
-  catchInternalServerError(AccountController.fetchProfile)
+  catchInternalServerError(AccountController.createAccount)
 );
 
+accountRouter.get(
+  ROUTES.GET_SINGLE_ACCOUNT,
+  validateRequestBody(validators.getAccountSchema, 'params'),
+  catchInternalServerError(AccountController.fetchSingleAccount)
+);
+
+accountRouter.get(
+  ROUTES.GET_ALL_ACCOUNTS,
+  catchInternalServerError(AccountController.fetchAllAccounts)
+);
 
 export default accountRouter;

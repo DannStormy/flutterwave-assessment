@@ -1,7 +1,7 @@
 export default {
   addAccount: `
     INSERT INTO accounts(account_number, name, dob, account_type, initial_balance)
-    VALUES ($1, $2, $3, $4, $5)
+    VALUES ($1, $2, $3, $4, $5) RETURNING account_number, name, account_type, initial_balance
       `,
   fetchSingleAccount: `
     SELECT *

@@ -1,7 +1,9 @@
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-import ROUTES from '../app/routes/constant.route';
+import versionOneRouter, { invalidRoute } from '../app/routes';
+import ROUTES from '../app/routes/constants';
+import loggerInit from './logger';
 
 const expressConfig = (app) => {
   let accessLogStream, logger;
@@ -36,13 +38,11 @@ const expressConfig = (app) => {
   });
 
   // handle every valid request i.e request to api/v1
-  app.use(config.API_VERSION_ONE_URL, versionOneRouter);
+  app.use(ROUTES.API_VERSION_ONE_URL, versionOneRouter);
 
   // reject all unknown routes (routes not directed to api/v1)
   app.all(ROUTES.WILD_CARD, invalidRoute);
 
-  // development error handler
-  // will print stacktrace
   app.use((err, req, res, next) =>
     res.status(err.status || 500).json({
       message: err.message,
@@ -50,12 +50,9 @@ const expressConfig = (app) => {
     })
   );
 
-  // production error handler
-  // remove stacktrace
   app.use((err, req, res, next) =>
     res.status(err.status || 500).json({ message: err.message })
   );
-  // app.use(errorMiddleware)
 };
 
 export default expressConfig;
