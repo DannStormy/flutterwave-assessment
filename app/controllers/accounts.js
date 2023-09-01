@@ -1,16 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
 import AccountService from '../services/account';
-import generateAccountNumber from '../helpers';
+import { generateAccountNumber } from '../helpers';
 import moment from 'moment';
 
 export default class AccountController {
   static async createAccount(req, res) {
     const { name, dob, account_type, initial_balance } = req.body;
 
-    // won't be hardcoded values
-    const bankCode = 12;
-    const branchCode = 34;
-    const accountNumber = generateAccountNumber(bankCode, branchCode);
+    // won't be hardcoded value ideally
+    const bankCode = 482;
+    const accountNumber = generateAccountNumber(bankCode);
     const details = await AccountService.insertAccount([
       accountNumber,
       name,
