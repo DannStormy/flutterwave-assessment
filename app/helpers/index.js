@@ -1,9 +1,7 @@
 import moment from 'moment';
-import crypto from 'crypto';
-// generate a random serial number
-function generateSerialNumber(length) {
-  const bytes = crypto.randomBytes(length / 2);
-  return bytes.toString('hex');
+
+function generateRandomNumber() {
+  return Math.floor(Math.random() * 900000000 + 100000000);
 }
 
 // Function to calculate the check digit for an account number
@@ -23,13 +21,14 @@ function calculateCheckDigit(bankCode, accountSerialNumber) {
   return total % 9;
 }
 
-// Function to generate a 10-digit account number
+// generate a 9-digit account number plus a check digit
 export function generateAccountNumber(bankCode) {
-  const accountSerialNumber = generateSerialNumber(9);
+  const accountSerialNumber = generateRandomNumber();
   const checkDigit = calculateCheckDigit(bankCode, accountSerialNumber);
 
-  return `${bankCode}${accountSerialNumber}${checkDigit}`;
+  return `${accountSerialNumber}${checkDigit}`;
 }
+
 
 export function loggingInfo(message, filePath) {
   logger.info(`[[${moment().format('DD-MMM-YYYY, h:mm:ss')}]
